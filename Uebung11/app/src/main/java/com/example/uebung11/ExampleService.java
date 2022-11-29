@@ -13,40 +13,49 @@ public class ExampleService extends Service {
     private ServiceHandler serviceHandler;
 
     private final class ServiceHandler extends Handler {
-        public ServiceHandler(Looper looper) {
-            super(looper);
-        }
+
+        public ServiceHandler(Looper looper) { super(looper); }
 
         @Override
-        public void onCreate() {
-            HandlerThread thread = new HandlerThread("ServiceStartArguments",
-                    Process.THREAD_PRIORITY_BACKGROUND);
-            thread.start();
+        public void handleMessage(Message msg) {
+            Toast.makeText(ExampleService.this, String.format("Received bundle data %s",
+                    msg.getData().getString(MainActivity.EXTRA_PERSON_NAME, "no data")),
+                    Toast.LENGTH_SHORT).show();
+            stopSelf(msg.arg1);
         }
+    }
 
-        @Override
-        public int onStartCommand(Intent intent, int flags, int startId) {
-            Toast.makeText(this,"service starting", Toast.LENGTH_SHORT).show();
+    @Override
+    public void onCreate() {
+        HandlerThread thread = new HandlerThread("ServiceStartArguments",
+                Process.THREAD_PRIORITY_BACKGROUND);
+        thread.start();
 
-            String personName = intent.getStringExtra(MainActivity.EXTRA_PERSON_NAME);
+        serviceLooper = thread.getLooper();
+        ServiceHandler = new ServiceHandler(serviceLooper);
+    }
 
-            Message msg = serviceHandler.obtainMessage();
-            msg.arg1 = startId;
-            Bundle bundle = msg.getData();
-            bundle.putString(MainActivity.EXTRA_PERSON_NAME, personName);
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Toast.makeText(this,"service starting", Toast.LENGTH_SHORT).show();
 
-            serviceHandler.sendMessage(msg);
-            return START_STICKY;
-        }
+        String personName = intent.getStringExtra(MainActivity.EXTRA_PERSON_NAME);
 
-        public void onDestroy() {
-            Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
-        }
+        Message msg = serviceHandler.obtainMessage();
+        msg.arg1 = startId;
+        Bundle bundle = msg.getData();
+        bundle.putString(MainActivity.EXTRA_PERSON_NAME, personName);
 
-        @Override
-        public IBinder onBind(Intent intent) {
-            return null;
-        }
+        serviceHandler.sendMessage(msg);
+        return START_STICKY;
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) { return null; }
+
+    @Override
+    public void onDestroy() {
+        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
     }
 }
 
