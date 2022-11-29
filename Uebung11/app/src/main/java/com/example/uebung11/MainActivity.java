@@ -24,6 +24,6 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, String.fromat("Got from EditText: %s", personName));
         Intent serviceIntent = new Intent(MainActivity.this, ExampleService.class);
         serviceIntent.putExtra(EXTRA_PERSON_NAME, personName);
-        StartService(serviceIntent);
+        startService(serviceIntent);
     }
 }
