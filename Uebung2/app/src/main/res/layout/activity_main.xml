@@ -7,21 +7,18 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="158dp"
-        android:layout_marginBottom="158dp"
-        android:text="button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:text="Button"
+        tools:layout_editor_absoluteX="143dp"
+        tools:layout_editor_absoluteY="361dp" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
-        android:text="@string/textview"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
-        tools:layout_editor_absoluteX="176dp" />
+        android:text="@string/hello_count"
+        tools:layout_editor_absoluteX="155dp"
+        tools:layout_editor_absoluteY="304dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
