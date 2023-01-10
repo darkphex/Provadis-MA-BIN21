@@ -10,9 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -54,17 +57,36 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
+            try {
             URL github = new URL("https://api.github.com/users");
-            HttpsURLConnection githubConnection = github.openConnection();
-            // ...
+            HttpsURLConnection githubConnection = (HttpsURLConnection) github.openConnection();
+            githubConnection.setRequestProperty("User-Agent", "com.dasgrau.uebung15");
+            githubConnection.setRequestProperty("Accept", "application/vnd.github.v3+json");
+            githubConnection.setRequestProperty("Contact-Me", "crow@mail.de");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(githubConnection.getInputStream()));
+            StringBuilder stringBuilder = new StringBuilder();
+            for (String line; (line = reader.readLine()) != null; )
+                stringBuilder.append(line).append('\n');
+
+            String jsonString = stringBuilder.toString();
+
             return jsonString;
-        }
+            
+            } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+            }
 
         @Override
         protected void onPostExecute(String response) {
-            JSONObject user = new JSONObject(response);
-            int id = user.getInt("id");
-            textView.setText("User ID is " + id);
+            try {
+                JSONObject user = new JSONObject(response);
+                int id = user.getInt("id");
+                textView.setText("User ID is " + id);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }
