@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">Uebung2</string>
-    <string name="button">Button</string>
-    <string name="ready_for_the_count">Ready for the count?</string>
-    <string name="textview">TextView</string>
-    <string name="hello_count">TextView</string>
-</resources>
