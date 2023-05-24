@@ -1,2 +1,5 @@
 # Provadis-MA-BIN21
-WP Mobile Anwendungen
+Programmcode für die Module
+Grundlagen der Informatik
+Mobile Anwendungen
+Fortgeschrittene Programmierung
